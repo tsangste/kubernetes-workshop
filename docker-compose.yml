@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  service1:
+    build:
+      context: ./service1
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:80
+
+  service2:
+    build:
+      context: ./service2
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3001:80
