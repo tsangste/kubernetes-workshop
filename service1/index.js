@@ -3,8 +3,10 @@ const bodyParser = require("body-parser")
 const fs = require('fs')
 const path = require('path')
 const request = require("request")
+const shortid = require("shortid")
 
 const app = express()
+const serviceId = shortid.generate()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -33,6 +35,10 @@ app.get("/test3", (req, res) => {
 
     res.status(200).send(JSON.parse(data.toString()))
   })
+})
+
+app.get("/test4", (req, res) => {
+  res.status(200).send(`Hello, I am service ${serviceId}`)
 })
 
 app.listen(80, () => console.log("app running on port.", 80))
