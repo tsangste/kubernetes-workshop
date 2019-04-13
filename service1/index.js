@@ -1,21 +1,23 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const fs = require('fs')
+const express = require('express')
+const bodyParser = require('body-parser')
+const fs = require('fs-extra')
 const path = require('path')
-const request = require("request")
-const shortid = require("shortid")
+const request = require('request')
+const shortid = require('shortid')
 
 const app = express()
 const serviceId = shortid.generate()
 
+const database = path.join(__dirname, '..', '..', 'database')
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get("/test", (req, res) => {
-  res.status(200).send("Hello!")
+app.get('/test', (req, res) => {
+  res.status(200).send('Hello!')
 })
 
-app.get("/test2", (req, res) => {
+app.get('/test2', (req, res) => {
   request({
     url: 'http://service2/',
     method: 'GET',
@@ -27,7 +29,7 @@ app.get("/test2", (req, res) => {
   })
 })
 
-app.get("/test3", (req, res) => {
+app.get('/test3', (req, res) => {
   const responseFile = path.join(__dirname, 'res.json')
 
   fs.readFile(responseFile, (err, data) => {
@@ -37,8 +39,37 @@ app.get("/test3", (req, res) => {
   })
 })
 
-app.get("/test4", (req, res) => {
+app.get('/test4', (req, res) => {
   res.status(200).send(`Hello, I am service ${serviceId}`)
 })
 
-app.listen(80, () => console.log("app running on port.", 80))
+app.get('/test5/:id', (req, res) => {
+  const id = req.params.id
+  const item = path.join(database, `${id}.json`)
+
+  fs.access(item, fs.F_OK, (err) => {
+    if (err) return res.status(404).send(`id: ${id} not found`)
+
+    fs.readFile(item, (err, data) => {
+      if (err) return res.status(500).send(err)
+
+      res.status(200).send(JSON.parse(data.toString()))
+    })
+  })
+})
+
+app.post('/test5', (req, res) => {
+  const id = shortid.generate()
+
+  fs.ensureDir(database, err => {
+    if (err) return res.status(500).send(err)
+
+    fs.writeFile(path.join(database, `${id}.json`), JSON.stringify(req.body), 'utf8', (err) => {
+      if (err) return res.status(500).send(err)
+
+      res.status(201).send(id)
+    })
+  })
+})
+
+app.listen(80, () => console.log('app running on port.', 80))
