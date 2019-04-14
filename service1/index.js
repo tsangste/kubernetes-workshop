@@ -30,6 +30,10 @@ app.get('/test2', (req, res) => {
 })
 
 app.get('/test3', (req, res) => {
+  res.status(200).send(`Hello, I am service ${serviceId}`)
+})
+
+app.get('/test4', (req, res) => {
   const responseFile = path.join(__dirname, 'res.json')
 
   fs.readFile(responseFile, (err, data) => {
@@ -37,10 +41,6 @@ app.get('/test3', (req, res) => {
 
     res.status(200).send(JSON.parse(data.toString()))
   })
-})
-
-app.get('/test4', (req, res) => {
-  res.status(200).send(`Hello, I am service ${serviceId}`)
 })
 
 app.get('/test5/:id', (req, res) => {
