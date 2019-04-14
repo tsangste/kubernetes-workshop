@@ -33,17 +33,7 @@ app.get('/test3', (req, res) => {
   res.status(200).send(`Hello, I am service ${serviceId}`)
 })
 
-app.get('/test4', (req, res) => {
-  const responseFile = path.join(__dirname, 'res.json')
-
-  fs.readFile(responseFile, (err, data) => {
-    if (err) return res.status(500).send(err)
-
-    res.status(200).send(JSON.parse(data.toString()))
-  })
-})
-
-app.get('/test5/:id', (req, res) => {
+app.get('/test4/:id', (req, res) => {
   const id = req.params.id
   const item = path.join(database, `${id}.json`)
 
@@ -58,7 +48,7 @@ app.get('/test5/:id', (req, res) => {
   })
 })
 
-app.post('/test5', (req, res) => {
+app.post('/test4', (req, res) => {
   const id = shortid.generate()
 
   fs.ensureDir(database, err => {
@@ -71,5 +61,16 @@ app.post('/test5', (req, res) => {
     })
   })
 })
+
+app.get('/test5', (req, res) => {
+  const responseFile = path.join(__dirname, 'res.json')
+
+  fs.readFile(responseFile, (err, data) => {
+    if (err) return res.status(500).send(err)
+
+    res.status(200).send(JSON.parse(data.toString()))
+  })
+})
+
 
 app.listen(80, () => console.log('app running on port.', 80))
