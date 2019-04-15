@@ -22,3 +22,10 @@ spec:
           env:
             - name: NODE_ENV
               value: production
+          volumeMounts:
+            - mountPath: "/usr/database"
+              name: pvc
+      volumes:
+        - name: pvc
+          persistentVolumeClaim:
+            claimName: service1-pvc
