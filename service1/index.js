@@ -8,6 +8,8 @@ const shortid = require('shortid')
 const app = express()
 const serviceId = shortid.generate()
 
+const service2Url = process.env.SERVICE2_URL || 'http://service2/'
+
 const database = path.join(__dirname, '..', '..', 'database')
 
 app.use(bodyParser.json())
@@ -19,7 +21,7 @@ app.get('/test', (req, res) => {
 
 app.get('/test2', (req, res) => {
   request({
-    url: 'http://service2/',
+    url: service2Url,
     method: 'GET',
     json: true
   }, (err, response, body) => {
