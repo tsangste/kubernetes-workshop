@@ -65,7 +65,7 @@ app.post('/test4', (req, res) => {
 })
 
 app.get('/test5', (req, res) => {
-  const responseFile = path.join(__dirname, 'res.json')
+  const responseFile = path.join(__dirname, "data", 'res.json')
 
   fs.readFile(responseFile, (err, data) => {
     if (err) return res.status(500).send(err)

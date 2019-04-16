@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "service1"
+  labels:
+    app: "service1"
+data:
+  response: '{
+  "property1": "w00t",
+  "property3": "1337"
+  }'

@@ -25,7 +25,15 @@ spec:
           volumeMounts:
             - mountPath: "/usr/database"
               name: pvc
+            - name: config-volume
+              mountPath: /usr/src/app/data
       volumes:
         - name: pvc
           persistentVolumeClaim:
             claimName: service1-pvc
+        - name: config-volume
+          configMap:
+            name: "service1"
+            items:
+              - key: response
+                path: res.json
