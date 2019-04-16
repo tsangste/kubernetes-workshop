@@ -22,6 +22,11 @@ spec:
           env:
             - name: NODE_ENV
               value: production
+            - name: SERVICE2_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "kube-config"
+                  key: url
           volumeMounts:
             - mountPath: "/usr/database"
               name: pvc
@@ -33,7 +38,7 @@ spec:
             claimName: service1-pvc
         - name: config-volume
           configMap:
-            name: "service1"
+            name: "kube-config"
             items:
               - key: response
                 path: res.json

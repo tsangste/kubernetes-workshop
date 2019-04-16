@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "service1"
+  name: "kube-config"
   labels:
-    app: "service1"
+    app: "kube-workshop"
 data:
   response: '{
   "property1": "w00t",
   "property3": "1337"
   }'
+  url: 'http://service2'
